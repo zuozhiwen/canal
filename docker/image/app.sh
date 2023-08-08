@@ -59,15 +59,11 @@ function checkStart() {
     while [ $timeout -gt 0 ]; do
         ST=`eval $cmd`
         if [ "$ST" == "0" ]; then
-            sleep 1
-            let timeout=timeout-1
-            let cost=cost+1
-        elif [ "$ST" == "" ]; then
-            sleep 1
-            let timeout=timeout-1
-            let cost=cost+1
-        else
             break
+        else
+            sleep 1
+            let timeout=timeout-1
+            let cost=cost+1
         fi
     done
     echo "start $name successful"
@@ -87,7 +83,7 @@ function start_canal() {
         su admin -c 'cd /home/admin/canal-server/bin/ && sh restart.sh local 1>>/tmp/start.log 2>&1'
         sleep 5
         #check start
-        checkStart "canal" "nc 127.0.0.1 $adminPort -w 1 -z | wc -l" 30
+        checkStart "canal" "nc 127.0.0.1 $adminPort -w 1 -z && echo $?" 30
     else
         metricsPort=`perl -le 'print $ENV{"canal.metrics.pull.port"}'`
         if [ -z "$metricsPort" ] ; then
@@ -109,7 +105,7 @@ function start_canal() {
         su admin -c 'cd /home/admin/canal-server/bin/ && sh restart.sh 1>>/tmp/start.log 2>&1'
         sleep 5
         #check start
-        checkStart "canal" "nc 127.0.0.1 $metricsPort -w 1 -z | wc -l" 30
+        checkStart "canal" "nc 127.0.0.1 $metricsPort -w 1 -z && echo $?" 30
     fi  
 }
 

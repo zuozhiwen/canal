@@ -1,12 +1,17 @@
-FROM canal/osbase:v2
+FROM canal/osbase:v2_arm64
 
-MAINTAINER agapple (jianghang115@gmail.com)
+LABEL agapple (jianghang115@gmail.com)
+
+ENV LANGUAGE "en_US.UTF-8"
+ENV LANG "en_US:zh_CN.UTF-8"
+ENV LC_ALL "C"
 
 # install canal
 COPY image/ /tmp/docker/
 COPY canal.deployer-*.tar.gz /home/admin/
 
 RUN \
+    ln -s /usr/bin/python2 /usr/bin/python && \
     cp -R /tmp/docker/alidata /alidata && \
     chmod +x /alidata/bin/* && \
     mkdir -p /home/admin && \
@@ -17,9 +22,6 @@ RUN \
     mkdir -p /home/admin/canal-server && \
     tar -xzvf /home/admin/canal.deployer-*.tar.gz -C /home/admin/canal-server && \
     /bin/rm -f /home/admin/canal.deployer-*.tar.gz && \
-
-    tar zxvf /tmp/node_exporter.tar.gz -C /home/admin && \
-    ln -s /home/admin/node_exporter-0.18.1.linux-arm64 /home/admin/node_exporter && \
 
     mkdir -p home/admin/canal-server/logs  && \
     chmod +x /home/admin/*.sh  && \
