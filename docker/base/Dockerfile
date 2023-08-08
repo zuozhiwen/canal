@@ -4,6 +4,8 @@ MAINTAINER agapple (jianghang115@gmail.com)
 
 # env DOWNLOAD_LINK="https://download.oracle.com/otn-pub/java/jdk/8u281-b09/89d678f2be164786b292527658ca1605/jdk-8u281-linux-x64.rpm"
 
+# https://www.oracle.com/java/technologies/downloads/#java8
+# 下载完直接放在Dockerfile同级目录
 COPY ./jdk-8u381-linux-aarch64.rpm /tmp/jdk-8-linux-x64.rpm
 
 RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \

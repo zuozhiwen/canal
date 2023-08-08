@@ -8,6 +8,8 @@ MAINTAINER agapple (jianghang115@gmail.com)
 #     wget "$NODE_EPORTER_LINK" -O /tmp/node_exporter.tar.gz && \
 #     true
 
+# https://github.com/prometheus/node_exporter/releases
+# 下载完直接放在Dockerfile同级目录
 COPY node_exporter-1.6.1.linux-arm64.tar.gz /tmp/node_exporter.tar.gz
 
 RUN tar zxvf /tmp/node_exporter.tar.gz -C /home/admin && \
